@@ -1,0 +1,185 @@
+{
+  "timestamp": "2026-09-05T12:56:29.155Z",
+  "checks": [
+    {
+      "name": "Chrome: optional permissions withheld",
+      "passed": true
+    },
+    {
+      "name": "Chrome: UI edit writes immediately",
+      "passed": true
+    },
+    {
+      "name": "Chrome: UI create and canonical URL",
+      "passed": true
+    },
+    {
+      "name": "Chrome: drag to reorder",
+      "passed": true
+    },
+    {
+      "name": "Chrome: recycle and restore preserve ID",
+      "passed": true
+    },
+    {
+      "name": "Chrome: undo and redo",
+      "passed": true
+    },
+    {
+      "name": "Chrome: external synchronization and stale-write conflict",
+      "passed": true
+    },
+    {
+      "name": "Chrome: fixed folder protection",
+      "passed": true
+    },
+    {
+      "name": "Chrome: import preview and byte-preserved original",
+      "passed": true
+    },
+    {
+      "name": "Chrome: project ZIP download, preview and restore as new nodes",
+      "passed": true
+    },
+    {
+      "name": "Chrome: Cmd selection, Shift range and batch rename preview",
+      "passed": true
+    },
+    {
+      "name": "Chrome: batch block reorder and reverse order undo",
+      "passed": true
+    },
+    {
+      "name": "Chrome: missing permission yields skipped result",
+      "passed": true
+    },
+    {
+      "name": "Chrome: real service worker stop and uncertain-create reconciliation",
+      "passed": true
+    },
+    {
+      "name": "Chrome: rendered layout without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "Chrome: 10,000 bookmark virtual list and search",
+      "passed": true,
+      "detail": "rendered=17, search=11ms, fixture=1043ms"
+    },
+    {
+      "name": "Chrome: 10,000 selection and batch move preview",
+      "passed": true,
+      "detail": "74ms"
+    },
+    {
+      "name": "Chrome: no page runtime errors",
+      "passed": true
+    },
+    {
+      "name": "Chrome: browser restart retains logs and metadata",
+      "passed": true
+    },
+    {
+      "name": "Edge: optional permissions withheld",
+      "passed": true
+    },
+    {
+      "name": "Edge: UI edit writes immediately",
+      "passed": true
+    },
+    {
+      "name": "Edge: UI create and canonical URL",
+      "passed": true
+    },
+    {
+      "name": "Edge: drag to reorder",
+      "passed": true
+    },
+    {
+      "name": "Edge: recycle and restore preserve ID",
+      "passed": true
+    },
+    {
+      "name": "Edge: undo and redo",
+      "passed": true
+    },
+    {
+      "name": "Edge: external synchronization and stale-write conflict",
+      "passed": true
+    },
+    {
+      "name": "Edge: fixed folder protection",
+      "passed": true
+    },
+    {
+      "name": "Edge: import preview and byte-preserved original",
+      "passed": true
+    },
+    {
+      "name": "Edge: project ZIP download, preview and restore as new nodes",
+      "passed": true
+    },
+    {
+      "name": "Edge: Cmd selection, Shift range and batch rename preview",
+      "passed": true
+    },
+    {
+      "name": "Edge: batch block reorder and reverse order undo",
+      "passed": true
+    },
+    {
+      "name": "Edge: missing permission yields skipped result",
+      "passed": true
+    },
+    {
+      "name": "Edge: real service worker stop and uncertain-create reconciliation",
+      "passed": true
+    },
+    {
+      "name": "Edge: rendered layout without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "Edge: no page runtime errors",
+      "passed": true
+    },
+    {
+      "name": "Edge: browser restart retains logs and metadata",
+      "passed": true
+    },
+    {
+      "name": "Network: controlled HTTP, restricted access, redirect, raw errors, timeout, bounded GET, no credentials",
+      "passed": true,
+      "detail": "max per-host=2"
+    },
+    {
+      "name": "Network: URL change marks result stale",
+      "passed": true
+    },
+    {
+      "name": "Network: default private filter",
+      "passed": true
+    },
+    {
+      "name": "Network: cancellation persists",
+      "passed": true
+    },
+    {
+      "name": "Network: browser restart resumes unfinished queue without duplicate result IDs",
+      "passed": true
+    }
+  ],
+  "browsers": [
+    {
+      "name": "Chrome",
+      "version": "152.0.7977.82"
+    },
+    {
+      "name": "Edge",
+      "version": "152.0.4191.62"
+    }
+  ],
+  "limitations": [
+    "Headless controlled-network tests use a disposable copy with optional permissions pregranted. Interactive permission grant UI remains a manual installation check. The unchanged release manifest is tested for missing permissions in both browsers."
+  ]
+}

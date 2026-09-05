@@ -1,0 +1,17 @@
+# Dependencies and generated build artifacts
+node_modules/
+dist/
+releases/
+
+# Local settings, credentials and caches
+.DS_Store
+.env
+.env.*
+!.env.example
+*.log
+*.tsbuildinfo
+
+# Keep checked-in acceptance evidence, but exclude transient test data
+test-results/profiles/
+coverage/
+playwright-report/
