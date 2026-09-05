@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-05T12:56:29.155Z",
+  "timestamp": "2026-09-05T13:19:26.051Z",
   "checks": [
     {
       "name": "Chrome: optional permissions withheld",
@@ -64,12 +64,12 @@
     {
       "name": "Chrome: 10,000 bookmark virtual list and search",
       "passed": true,
-      "detail": "rendered=17, search=11ms, fixture=1043ms"
+      "detail": "rendered=17, search=16ms, fixture=714ms"
     },
     {
       "name": "Chrome: 10,000 selection and batch move preview",
       "passed": true,
-      "detail": "74ms"
+      "detail": "91ms"
     },
     {
       "name": "Chrome: no page runtime errors",

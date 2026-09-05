@@ -6,7 +6,9 @@
 
 ## 安装
 
-已构建的扩展位于 **`dist/`**，分发包位于 **`releases/BookMarker-1.0.0.zip`**。
+从 [v1.0.0 Release](https://github.com/hidge123/BookMarker/releases/tag/v1.0.0) 下载 **`BookMarker-1.0.0.zip`** 并解压。同页提供 SHA-256 校验文件；不要将 GitHub 自动生成的 `Source code` 压缩包当作可直接安装的扩展。
+
+从源码构建时，先执行 `npm ci` 和 `npm run package`，扩展会生成在 **`dist/`**，分发包位于 **`releases/BookMarker-1.0.0.zip`**。
 
 1. Chrome 打开 `chrome://extensions`；Edge 打开 `edge://extensions`。
 2. 开启「开发者模式」，点击「加载已解压的扩展程序」。
@@ -14,6 +16,8 @@
 4. 点击扩展图标打开书签工作台。日后点击图标会优先定位已经打开的工作台标签页。
 
 完整步骤和权限说明见 [安装说明](docs/INSTALL.md)，数据范围和故障处理见 [使用与诊断](docs/USAGE.md)。第一版不包含商店发布。
+
+版本变更见 [更新日志](CHANGELOG.md)。
 
 ## 已实现
 
