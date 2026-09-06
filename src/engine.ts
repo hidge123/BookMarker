@@ -102,8 +102,33 @@ export class BookmarkEngine {
         const nodes = minimalSelection(command.nodes, records); label = `移动 ${nodes.length} 项`;
         const movingIds = new Set(nodes.map(n => n.id));
         const remaining = records.filter(n => n.parentId === dest.id && !movingIds.has(n.id)).sort((a, b) => a.index - b.index);
-        const beforeId = command.index === undefined ? undefined : remaining[Math.max(0, command.index)]?.id;
+        if (command.beforeId && !remaining.some(n => n.id === command.beforeId)) throw new ConflictError('目标锚点不存在、已移动或属于选中项目');
+        const beforeId = command.beforeId ?? (command.index === undefined ? undefined : remaining[Math.max(0, command.index)]?.id);
         for (let i = 0; i < nodes.length; i++) { const n = requireNode(nodes[i].id); if (n.inTrash) throw new ConflictError('请先从回收站恢复'); steps.push(step({ kind: 'move', nodeId: n.id, expected: await this.capture(nodes[i], !n.url), parentId: dest.id, beforeId, atEnd: !beforeId })); } break;
+      }
+      case 'copy': {
+        const dest = requireFolder(command.parentId); if (dest.inTrash) throw new ConflictError('不能复制到回收站');
+        const nodes = minimalSelection(command.nodes, records); label = `复制 ${nodes.length} 项`;
+        const names = new Set(records.filter(n => n.parentId === dest.id).map(n => n.title));
+        for (const target of nodes) {
+          const source = requireNode(target.id); if (source.inTrash) throw new ConflictError('请先从回收站恢复');
+          let p: BookmarkRecord | undefined = dest;
+          while (p) { if (p.id === source.id) throw new ConflictError('不能复制到自身或其子目录'); p = byId.get(p.parentId ?? ''); }
+          const guard = await this.capture(target, source.url === undefined);
+          const [tree] = await this.api.getSubTree(source.id);
+          if (guard.treeHash && treeDigest(tree) !== guard.treeHash) throw new ConflictError('复制来源已被外部修改');
+          let title = source.title;
+          if (names.has(title)) { title = `${source.title} 副本`; let i = 2; while (names.has(title)) title = `${source.title} 副本 ${i++}`; }
+          names.add(title);
+          const add = (n: BrowserNode, parent: { parentId: string } | { parentRef: string }, name = n.title) => {
+            const record = byId.get(n.id); if (!record || record.readOnly || record.inTrash) throw new ConflictError('复制子树包含不可复制的节点');
+            const { id: _id, trash: _trash, recycleRegion: _recycle, ...meta } = metadata.get(n.id) ?? { id: n.id };
+            const s = step({ kind: 'create', ...parent, title: name, url: n.url, copySource: n.id === source.id ? guard : expected(n), metadata: meta }); steps.push(s);
+            for (const child of n.children ?? []) add(child, { parentRef: s.id });
+          };
+          add(tree, { parentId: dest.id }, title);
+        }
+        break;
       }
       case 'trash':
         label = `移入回收站 · ${command.nodes.length} 项`;
@@ -162,6 +187,12 @@ export class BookmarkEngine {
   async runStep(op: OperationRecord, s: OperationStep): Promise<void> {
     let apiReturned = false;
     try {
+      if (s.copySource) {
+        await this.checkedNode(s.copySource.id);
+        const source = await this.actual(s.copySource.id);
+        if (!matches(source, s.copySource, true)) throw new ConflictError('复制来源已被外部修改或删除');
+        if (s.copySource.treeHash) { const [tree] = await this.api.getSubTree(s.copySource.id); if (treeDigest(tree) !== s.copySource.treeHash) throw new ConflictError('复制来源的子树已被外部修改'); }
+      }
       if (s.parentRef) { const parent = op.steps.find(p => p.id === s.parentRef); if (parent?.state !== 'done' || !parent.createdId) throw new ConflictError('依赖目录未成功创建'); s.parentId = parent.createdId; }
       if (s.kind !== 'create') { await this.checkedNode(s.nodeId!); await this.verifyGuard(s); }
       if (s.parentId) await this.checkedNode(s.parentId, true);

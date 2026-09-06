@@ -26,6 +26,7 @@ export interface OperationStep {
   irreversible?: boolean;
   allowedDescendantIds?: string[];
   systemRecycle?: boolean; importKey?: string; importedMetadata?: NodeMetadata; importRegionId?: string;
+  copySource?: Expected;
 }
 export interface OperationRecord {
   id: string; label: string; createdAt: number; completedAt?: number;
@@ -59,7 +60,8 @@ export interface AppState {
 export type EditCommand =
   | { kind: 'create'; parentId: string; title: string; url?: string }
   | { kind: 'update'; changes: { expected: Expected; title?: string; url?: string }[] }
-  | { kind: 'move'; nodes: Expected[]; parentId: string; index?: number }
+  | { kind: 'move'; nodes: Expected[]; parentId: string; index?: number; beforeId?: string }
+  | { kind: 'copy'; nodes: Expected[]; parentId: string }
   | { kind: 'trash' | 'restore' | 'purge'; nodes: Expected[]; confirmed?: boolean }
   | { kind: 'import'; parentId: string; folderTitle: string; parsed: ParsedImport }
   | { kind: 'undo' | 'redo'; operationId: string }

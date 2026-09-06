@@ -15,3 +15,7 @@ releases/
 test-results/profiles/
 coverage/
 playwright-report/
+
+# Temporary integration failure diagnostics
+test-results/*-failure.png
+test-results/failure-state.json

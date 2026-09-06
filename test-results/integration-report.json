@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-09-05T13:19:26.051Z",
+  "timestamp": "2026-09-06T03:05:43.841Z",
   "checks": [
     {
       "name": "Chrome: optional permissions withheld",
       "passed": true
     },
     {
-      "name": "Chrome: UI edit writes immediately",
+      "name": "Chrome: default grid properties modal, list inspector, immediate editing",
       "passed": true
     },
     {
@@ -58,18 +58,63 @@
       "passed": true
     },
     {
-      "name": "Chrome: rendered layout without horizontal overflow",
+      "name": "Chrome: rendered grid and list layout without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "Chrome: blank context creation selects result, inline F2 save/cancel, folder double-click and back",
+      "passed": true
+    },
+    {
+      "name": "Chrome: shared view selection, cross-directory nested copy, suffix names and undo",
+      "passed": true
+    },
+    {
+      "name": "Chrome: cut dimming, Escape cancellation, paste preserves ID and input shortcuts",
+      "passed": true
+    },
+    {
+      "name": "Chrome: recursive case-insensitive basic search, actual path, locate and history restores search",
+      "passed": true
+    },
+    {
+      "name": "Chrome: display sort makes no writes, explicit sort application matches displayed order",
+      "passed": true
+    },
+    {
+      "name": "Chrome: tree node drag source, background destination and breadcrumb drop",
+      "passed": true
+    },
+    {
+      "name": "Chrome: drag-hover navigation and drop after entering a folder",
+      "passed": true
+    },
+    {
+      "name": "Chrome: externally removed current directory falls back to surviving ancestor",
+      "passed": true
+    },
+    {
+      "name": "Chrome: combined dashboard scope, duplicate confirmation and locate-return state",
       "passed": true
     },
     {
       "name": "Chrome: 10,000 bookmark virtual list and search",
       "passed": true,
-      "detail": "rendered=17, search=16ms, fixture=714ms"
+      "detail": "rendered=27, search=9ms, fixture=711ms"
     },
     {
       "name": "Chrome: 10,000 selection and batch move preview",
       "passed": true,
-      "detail": "91ms"
+      "detail": "73ms"
+    },
+    {
+      "name": "Chrome: back navigation restores exact scroll offset within a row",
+      "passed": true
+    },
+    {
+      "name": "Chrome: 10,000 virtual grid, marquee across offscreen items, edge scrolling, view position and reload preferences",
+      "passed": true,
+      "detail": "rendered=126, marquee=180, anchor=193"
     },
     {
       "name": "Chrome: no page runtime errors",
@@ -84,7 +129,7 @@
       "passed": true
     },
     {
-      "name": "Edge: UI edit writes immediately",
+      "name": "Edge: default grid properties modal, list inspector, immediate editing",
       "passed": true
     },
     {
@@ -136,8 +181,63 @@
       "passed": true
     },
     {
-      "name": "Edge: rendered layout without horizontal overflow",
+      "name": "Edge: rendered grid and list layout without horizontal overflow",
       "passed": true
+    },
+    {
+      "name": "Edge: blank context creation selects result, inline F2 save/cancel, folder double-click and back",
+      "passed": true
+    },
+    {
+      "name": "Edge: shared view selection, cross-directory nested copy, suffix names and undo",
+      "passed": true
+    },
+    {
+      "name": "Edge: cut dimming, Escape cancellation, paste preserves ID and input shortcuts",
+      "passed": true
+    },
+    {
+      "name": "Edge: recursive case-insensitive basic search, actual path, locate and history restores search",
+      "passed": true
+    },
+    {
+      "name": "Edge: display sort makes no writes, explicit sort application matches displayed order",
+      "passed": true
+    },
+    {
+      "name": "Edge: tree node drag source, background destination and breadcrumb drop",
+      "passed": true
+    },
+    {
+      "name": "Edge: drag-hover navigation and drop after entering a folder",
+      "passed": true
+    },
+    {
+      "name": "Edge: externally removed current directory falls back to surviving ancestor",
+      "passed": true
+    },
+    {
+      "name": "Edge: combined dashboard scope, duplicate confirmation and locate-return state",
+      "passed": true
+    },
+    {
+      "name": "Edge: 10,000 bookmark virtual list and search",
+      "passed": true,
+      "detail": "rendered=27, search=14ms, fixture=804ms"
+    },
+    {
+      "name": "Edge: 10,000 selection and batch move preview",
+      "passed": true,
+      "detail": "74ms"
+    },
+    {
+      "name": "Edge: back navigation restores exact scroll offset within a row",
+      "passed": true
+    },
+    {
+      "name": "Edge: 10,000 virtual grid, marquee across offscreen items, edge scrolling, view position and reload preferences",
+      "passed": true,
+      "detail": "rendered=126, marquee=171, anchor=195"
     },
     {
       "name": "Edge: no page runtime errors",
@@ -176,7 +276,7 @@
     },
     {
       "name": "Edge",
-      "version": "152.0.4191.62"
+      "version": "152.0.4191.66"
     }
   ],
   "limitations": [

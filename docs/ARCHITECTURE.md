@@ -8,7 +8,7 @@ Manifest V3，Service Worker ES module，React/TypeScript 管理页面，Vite �
 
 ## 持久化
 
-IndexedDB `bookmarker` v1：`operations`、`metadata`、`sources`、`snapshots`、`results`、`jobs`、`kv`。`chrome.storage.local` 只保存检测设置；不使用 `storage.sync`。数据会随扩展卸载清除，参见 [Chrome storage](https://developer.chrome.com/docs/extensions/reference/api/storage)。
+IndexedDB `bookmarker` v1：`operations`、`metadata`、`sources`、`snapshots`、`results`、`jobs`、`kv`。`kv` 中的 `explorer` 保存上次目录、祖先路径、双视图及显示排序偏好。`chrome.storage.local` 只保存检测设置；不使用 `storage.sync`。数据会随扩展卸载清除，参见 [Chrome storage](https://developer.chrome.com/docs/extensions/reference/api/storage)。
 
 每个配置有随机 profile ID。操作和快照使用持久化单调逻辑时间，消除同毫秒操作排序的不确定性。所有浏览器节点以真实 API 返回值为准；原始 URL 输入另存元数据。
 
@@ -24,6 +24,18 @@ IndexedDB `bookmarker` v1：`operations`、`metadata`、`sources`、`snapshots`�
 一次只接受一个尚未完成的修改计划，避免在半完成批次中拍摄不清晰的版本边界。计划内每步单独保存完成/失败状态；独立步骤失败不声称整批回滚。
 
 Chromium 书签 API 不提供 compare-and-swap 或多节点事务。提交前的核对能识别已经发生的外部修改，但核对与实际 API 调用之间仍存在极小的竞争窗口，不能描述为数据库级原子隔离。
+
+## 管理器与统一看板
+
+`src/explorer.ts` 定义 `ExplorerState`、`ClipboardState`、`DropIntent`，并提供目录范围、组合筛选、排序副本、目标验证、完成结果选择和框选坐标计算。`ui/Explorer.tsx` 的网格和列表共享一个虚拟化视口、选择和拖放控制器；树节点和底部面包屑也使用同一移动意图。`ui/Dashboard.tsx` 负责指标、组合筛选和冻结的去重预览；`ui/Details.tsx` 提供列表侧栏与图标属性弹窗共用的编辑界面。
+
+前进/后退栈存储目录、搜索、滚动及首个可见节点；双视图切换按首个可见节点重建滚动位置。看板单独保留筛选、滚动和选择，定位跳转不清空它们。仅导航、搜索或明确选择新建结果时主动改变可见位置，常规后台刷新不跳回顶部。
+
+`EditCommand.copy` 在后台核对来源、目标和祖先关系，把来源子树展开为已有 `create` 步骤，以 `parentRef` 保留结构和兄弟顺序。复制内容按提交时的来源树规划，顶层创建前复核子树摘要，后续子项创建前核对对应来源字段，避免每一步重复存储完整子树摘要；同名仅给顶层新项目加后缀；来源元数据引用保留，检测结果不复制。所有创建步骤沿用持久意图、中断核对、撤销和重做，不新增数据库版本、备份版本或扩展权限。
+
+`move.beforeId` 是可选目标节点锚点，后台提交时确认它属于目标目录且不在移动集合中，每步执行前再次核对并计算实际插入位置。无锚点表示末尾；旧 `index` 调用仍转换成锚点，保持兼容。显示排序不发送写入消息，显式应用排序才提交移动命令。
+
+页面追踪自己提交的操作 ID，根据后台完成步骤更新结果选择和剪切剪贴板。部分失败不清空未完成项目，也不会自动重试不确定的新建。
 
 ## 恢复与版本
 
@@ -47,6 +59,6 @@ Chromium 书签 API 不提供 compare-and-swap 或多节点事务。提交前的
 
 ## 性能与后续空间
 
-列表固定行高 62px，使用 ResizeObserver、可见范围与上下预留行渲染；搜索在内存书签索引上进行，React deferred query 降低输入阻塞。当前一步一次保存操作记录，超大型导入时完整步骤日志的重写成本仍然随批次长度增长；如需长期处理十万级导入，可将步骤迁移到单独对象仓库。此版本已对一万条真实测试书签验证虚拟列表和搜索，未宣称十万级批次吞吐验收。
+列表固定行高 42px，网格按容器宽度计算列数并以 124px 行高虚拟化，两者使用 ResizeObserver、可见范围与上下预留行渲染；框选基于完整布局坐标而非已渲染 DOM；搜索在内存书签索引上进行，React deferred query 降低输入阻塞。当前一步一次保存操作记录，超大型导入时完整步骤日志的重写成本仍然随批次长度增长；如需长期处理十万级导入，可将步骤迁移到单独对象仓库。此版本已对一万条真实测试书签验证双视图、搜索、框选和边缘滚动，未宣称十万级批次吞吐验收。
 
 日志、手动/操作快照持续增长，磁盘限制仍存在。`unlimitedStorage` 不等于无限硬盘。未实现云同步、压缩 Firefox jsonlz4、商店发布或无痕配置管理。
